@@ -35,6 +35,11 @@ function planTrip() {
     var destinationOutput = document.querySelector('.destination-output');
     var stopsOutput = document.querySelector('.stops-output');
     var stationsOutput = document.querySelector('.stations-output');
+    var stationsChange = document.querySelector('.stations-change');
+    var stationsAfter = document.querySelector('.stations-after-change')
+    stationsOutput.textContent = '';
+    stationsChange.textContent = '';
+    stationsAfter.textContent = '';
     
     
 
@@ -87,30 +92,63 @@ function planTrip() {
         var journeyOne = lineJourney(origin, destination, originLine);
         originOutput.textContent = `Origin: ${origin}`;
         destinationOutput.textContent = `Destination: ${destination}`;
-        stopsOutput.textContent = `There are ${journeyOne.length - 1} stops`;
-        var stationsText = ``;
-        for ( var i = 0; i < journeyOne.length; i++) {
-            
-            stationsText = stationsText + `----${journeyOne[i]}----`;
+
+        if (journeyOne.length - 1 === 1) {
+            stopsOutput.textContent = `There is ${journeyOne.length - 1} stop`;
+        } else {
+            stopsOutput.textContent = `There are ${journeyOne.length - 1} stops`;
         }
-        stationsOutput.textContent = stationsText;
+        
+        var stationsText = ``;
+        var stationOne = `${journeyOne[0]} `
+        var stationLast = ` ----> ${journeyOne[journeyOne.length - 1]}`
+        if (journeyOne.length > 2) {
+            for ( var i = 1; i < journeyOne.length - 1; i++) {
+            
+                stationsText = stationsText + ` ----> ${journeyOne[i]}`;
+            }
+        }
+        
+        stationsOutput.textContent = stationOne + stationsText + stationLast;
+
     } else {
         var journeyOne = lineJourney(origin,"Richmond",originLine);
         var journeyTwo = lineJourney("Richmond",destination,destinationLine);
+        var stationsAfterText = ``;
         originOutput.textContent = `Origin: ${origin}`;
         destinationOutput.textContent = `Destination: ${destination}`;
         stopsOutput.textContent = `There are ${journeyOne.length + journeyTwo.length - 2} stops`;
+        
+        
         var stationsText = ``;
-        for ( var i = 0; i < journeyOne.length; i++) {
+        var stationOne = `${journeyOne[0]} `
+        var stationLast = ` ----> ${journeyOne[journeyOne.length - 1]}`
+        if (journeyOne.length > 2) {
+            for ( var i = 1; i < journeyOne.length - 1; i++) {
             
-            stationsText = stationsText + `----${journeyOne[i]}----`;
+                stationsText = stationsText + ` ----> ${journeyOne[i]}`;
+            }
         }
         
-        for ( var i = 0; i < journeyTwo.length; i++) {
+        stationsOutput.textContent = stationOne + stationsText + stationLast;
+        stationsChange.textContent = '-- change --';  
+        
+        var stationsAfterText = ``;
+        var stationChange = `${journeyTwo[0]} `
+        var stationChangeLast = ` ----> ${journeyTwo[journeyTwo.length - 1]}`
+        if (journeyTwo.length > 2) {
+            for ( var i = 1; i < journeyTwo.length - 1; i++) {
             
-            stationsText = stationsText + `----${journeyTwo[i]}----`;
+                stationsAfterText = stationsAfterText + ` ----> ${journeyTwo[i]}`;
+            }
         }
-        stationsOutput.textContent = stationsText;   
+
+        
+        stationsAfter.textContent = stationChange + stationsAfterText + stationChangeLast;
+        
+        
+
+
     }
 
 }
